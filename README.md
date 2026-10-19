@@ -34,7 +34,7 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 4. 在 **Script** 中选择刚才保存的 `Codex Usage`。
 5. 如需立即刷新，在 Scriptable 中再次运行该脚本。iOS 会自行安排主屏幕小组件的后续刷新时间。
 
-中号组件将 5 小时和周额度并排显示，重置日期和时间位于各自百分比正下方并居中；小号组件也会显示两项额度的重置时间。标题带有代码风格图标，不显示右上角的 LIVE 状态。图片为设计方向示意，实际界面由 Scriptable 和 iOS 渲染。
+中号组件将 5 小时和周额度并排显示，重置日期和时间位于各自百分比正下方并居中；小号组件也会显示两项额度的重置时间。标题带有参考图中的蓝色 `</>` Codex 图标，不显示右上角的 LIVE 状态；图标已经嵌入 JS 文件，无需单独导入图片。图片为设计方向示意，实际界面由 Scriptable 和 iOS 渲染。
 
 ### 重新授权
 
@@ -90,7 +90,7 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 4. Under **Script**, select the `Codex Usage` script you saved.
 5. To refresh immediately, run the script from the Scriptable app. iOS schedules later widget refreshes at its discretion.
 
-The medium widget places the 5-hour and weekly limits side by side, with each reset date and time centered directly below its percentage. The small widget also shows both reset times. The title includes a code-style mark and omits the LIVE badge. Images are visual concepts; Scriptable and iOS render the actual widget.
+The medium widget places the 5-hour and weekly limits side by side, with each reset date and time centered directly below its percentage. The small widget also shows both reset times. The title uses the blue `</>` Codex mark from the reference and omits the LIVE badge. The mark is embedded in the JavaScript file, so no separate image import is needed. Images are visual concepts; Scriptable and iOS render the actual widget.
 
 ### Reauthorize
 
