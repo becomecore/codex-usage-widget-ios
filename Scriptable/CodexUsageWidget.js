@@ -240,7 +240,7 @@ function buildSmall(widget, payload) {
   widget.addSpacer(5);
   addSmallUsageRow(widget, "5h", payload.fiveHour, COLORS.blue);
   widget.addSpacer(5);
-  addSmallUsageRow(widget, "W", payload.weekly, COLORS.green);
+  addSmallUsageRow(widget, "Week", payload.weekly, COLORS.green);
 }
 
 function addSmallUsageRow(parent, label, windowData, color) {
@@ -264,7 +264,7 @@ function addSmallUsageRow(parent, label, windowData, color) {
 
   section.addSpacer(1);
   const reset = section.addText(resetText(windowData, label));
-  reset.font = Font.mediumSystemFont(9);
+  reset.font = Font.mediumSystemFont(10);
   reset.textColor = COLORS.muted;
   reset.lineLimit = 1;
   reset.minimumScaleFactor = 0.7;
@@ -288,9 +288,9 @@ function buildMedium(widget, payload) {
 
 function buildLarge(widget, payload) {
   addTitleRow(widget, payload);
-  widget.addSpacer(18);
+  widget.addSpacer(12);
   addGaugeBlock(widget, "5h", payload.fiveHour, COLORS.blue);
-  widget.addSpacer(18);
+  widget.addSpacer();
   addGaugeBlock(widget, "Week", payload.weekly, COLORS.green);
   widget.addSpacer();
   addFooter(widget, payload);
@@ -303,10 +303,10 @@ function addTitleRow(parent, payload) {
 
   const logo = Image.fromData(Data.fromBase64String(CODEX_LOGO_BASE64));
   logo.tintColor = COLORS.text;
-  const logoWidth = config.widgetFamily === "small" ? 38 : config.widgetFamily === "large" ? 54 : 42;
+  const logoWidth = config.widgetFamily === "small" ? 57 : config.widgetFamily === "large" ? 81 : 63;
   const logoAspect = 480 / 126;
-  logo.imageSize = new Size(logoWidth, logoWidth / logoAspect);
-  row.addImage(logo);
+  const logoView = row.addImage(logo);
+  logoView.imageSize = new Size(logoWidth, logoWidth / logoAspect);
 }
 
 function addBigValue(parent, label, value, color) {
