@@ -13,7 +13,10 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 - 从 OpenAI 用量接口读取 5 小时和周额度。
 - 中号横向小组件显示百分比、进度条和**下次重置的具体日期与时刻**，不只显示倒计时。
 - 小号组件也显示 5 小时与周额度的重置日期和时间。
-- 浅色外观为暖白极简风，深色外观自动切换为深蓝霓虹风。
+- 精确重置时间以带时钟图标的等宽数字标签突出显示；不显示会因系统刷新延迟而过时的倒计时。
+- 浅色外观为暖白极简风，深色外观自动切换为深蓝色调。
+- 可从 Scriptable 手动运行菜单设置 5 小时或周额度的本地重置通知。
+- 小组件会将下次重置时刻作为一个可能的刷新时间；iOS 仍会自行决定实际刷新时机。
 - 重置时间优先使用用量接口返回的下次重置时间，并按 iPhone 当前时区显示为 `MM/dd HH:mm`；若接口仅提供剩余秒数，则由当前时间换算。
 - 刷新令牌保存在本机 Scriptable Keychain；本项目不连接 Cloudflare。
 
@@ -34,7 +37,15 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 4. 在 **Script** 中选择刚才保存的 `Codex Usage`。
 5. 如需立即刷新，在 Scriptable 中再次运行该脚本。iOS 会自行安排主屏幕小组件的后续刷新时间。
 
-中号组件将 5 小时和周额度并排显示，重置日期和时间位于各自百分比正下方并居中；小号组件也会显示两项额度的重置时间。标题使用你提供的 Codex 官方图标与字标组合，并自适应浅色/深色外观；右上角不显示 LIVE 状态。图片为设计方向示意，实际界面由 Scriptable 和 iOS 渲染。
+中号组件将 5 小时和周额度并排显示，重置日期和时间位于各自百分比正下方并居中；小号组件也会显示两项额度的重置时间。标题使用内嵌的 Codex 图标与字标组合，并自适应浅色/深色外观；右上角不显示 LIVE 状态。图片为设计方向示意，实际界面由 Scriptable 和 iOS 渲染。
+
+### 设置本地重置通知
+
+1. 在 Scriptable 中手动运行脚本。
+2. 选择 **“设置重置提醒”**，再选择 **“5 小时额度”** 或 **“周额度”**。
+3. 如果 iOS 请求通知权限，请允许 Scriptable 发送通知。
+
+通知由 iPhone 本地安排，不会经由服务器发送。重置提醒按最近一次查询到的重置时间设置；如果额度时间发生变化，请重新运行脚本并重新设置提醒。通知是否准时显示也可能受专注模式和 iOS 调度影响。小组件的 `refreshAfterDate` 会参考下次重置时间，但 iOS 可能延迟刷新，不能保证在重置那一分钟更新。
 
 ### 重新授权
 
@@ -57,7 +68,7 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 先在 Scriptable 应用中手动运行脚本，确认授权仍有效、用量能正常显示。iOS 控制小组件的刷新频率，`refreshAfterDate` 不代表系统一定会在该时刻刷新。
 
 **深色外观没有切换**  
-确认 iPhone 已切换到深色模式，并重新运行一次脚本让小组件刷新。
+颜色会随 iPhone 的浅色/深色外观动态变化。如果小组件还显示缓存画面，可在 Scriptable 中运行一次脚本，或等待 iOS 更新组件。
 
 ## English instructions
 
@@ -68,7 +79,10 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 - The standout feature is an **absolute next-reset date and clock time** (for example, `10/23 18:30`) directly below each percentage, rather than only a countdown.
 - The medium landscape widget shows percentages, progress bars, and next-reset times.
 - The small widget also shows reset date and time for both usage windows.
-- The light appearance uses a warm minimal palette; dark appearance switches to a midnight blue neon palette.
+- Exact reset times use a clock icon and monospaced digits. A stale countdown is omitted because iOS may delay widget refreshes.
+- The light appearance uses a warm minimal palette; dark appearance switches to a midnight blue palette.
+- A local reset notification for either the 5-hour or weekly limit can be scheduled from the Scriptable run menu.
+- The widget considers the next reset time when requesting its next refresh; iOS still controls when it actually refreshes.
 - The widget uses the reset timestamp returned by the usage endpoint and displays it in the iPhone's local time zone as `MM/dd HH:mm`. If the endpoint only supplies seconds remaining, the widget calculates the corresponding local time.
 - No Cloudflare or other server deployment and no Codex CLI are required; authorization and usage lookup run directly in Scriptable on the iPhone.
 - The refresh token is stored in Scriptable Keychain on the iPhone. This project does not connect to Cloudflare.
@@ -90,7 +104,15 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 4. Under **Script**, select the `Codex Usage` script you saved.
 5. To refresh immediately, run the script from the Scriptable app. iOS schedules later widget refreshes at its discretion.
 
-The medium widget places the 5-hour and weekly limits side by side, with each reset date and time centered directly below its percentage. The small widget also shows both reset times. The title uses the provided Codex logo and wordmark, tinted for light/dark appearance, without a LIVE badge. Images are visual concepts; Scriptable and iOS render the actual widget.
+The medium widget places the 5-hour and weekly limits side by side, with each reset date and time centered directly below its percentage. The small widget also shows both reset times. The title uses the embedded Codex logo and wordmark, tinted for light/dark appearance, without a LIVE badge. Images are visual concepts; Scriptable and iOS render the actual widget.
+
+### Schedule a local reset notification
+
+1. Run the script manually in Scriptable.
+2. Choose **“设置重置提醒”** (Set reset reminder), then select the 5-hour or weekly limit.
+3. Allow notifications for Scriptable if iOS asks.
+
+The notification is scheduled locally on the iPhone and is not sent through a server. It uses the reset time from the latest usage query; rerun the script and schedule again if that time changes. Focus modes and iOS scheduling may affect delivery time. The widget also considers reset time when requesting a refresh, but iOS may delay widget updates and cannot guarantee a refresh in the exact reset minute.
 
 ### Reauthorize
 
@@ -113,7 +135,7 @@ The device authorization flow may not currently be available for your account or
 Run the script manually in Scriptable and confirm authorization is still valid and usage loads. iOS controls widget refresh frequency; `refreshAfterDate` is a requested refresh time, not a guarantee.
 
 **Dark appearance did not update**  
-Switch the iPhone to Dark Mode and run the script once to refresh the widget.
+Colors adapt to the iPhone's Light or Dark appearance. If the widget still shows a cached rendering, run the script once in Scriptable or wait for iOS to refresh it.
 
 ## Design concepts
 
