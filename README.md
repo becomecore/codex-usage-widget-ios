@@ -12,6 +12,7 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 - 在 Scriptable 中完成 Codex 设备授权，不需要手动复制刷新令牌。
 - 从 OpenAI 用量接口读取 5 小时和周额度。
 - 中号横向小组件显示百分比、进度条和**下次重置的具体日期与时刻**，不只显示倒计时。
+- 小号组件也显示 5 小时与周额度的重置日期和时间。
 - 浅色外观为暖白极简风，深色外观自动切换为深蓝霓虹风。
 - 重置时间优先使用用量接口返回的下次重置时间，并按 iPhone 当前时区显示为 `MM/dd HH:mm`；若接口仅提供剩余秒数，则由当前时间换算。
 - 刷新令牌保存在本机 Scriptable Keychain；本项目不连接 Cloudflare。
@@ -33,7 +34,7 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 4. 在 **Script** 中选择刚才保存的 `Codex Usage`。
 5. 如需立即刷新，在 Scriptable 中再次运行该脚本。iOS 会自行安排主屏幕小组件的后续刷新时间。
 
-中号组件将 5 小时和周额度并排显示，重置日期和时间位于各自百分比正下方并居中。图片为设计方向示意，实际界面由 Scriptable 和 iOS 渲染。
+中号组件将 5 小时和周额度并排显示，重置日期和时间位于各自百分比正下方并居中；小号组件也会显示两项额度的重置时间。标题带有代码风格图标，不显示右上角的 LIVE 状态。图片为设计方向示意，实际界面由 Scriptable 和 iOS 渲染。
 
 ### 重新授权
 
@@ -66,6 +67,7 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 - Reads 5-hour and weekly limits from the OpenAI usage endpoint.
 - The standout feature is an **absolute next-reset date and clock time** (for example, `10/23 18:30`) directly below each percentage, rather than only a countdown.
 - The medium landscape widget shows percentages, progress bars, and next-reset times.
+- The small widget also shows reset date and time for both usage windows.
 - The light appearance uses a warm minimal palette; dark appearance switches to a midnight blue neon palette.
 - The widget uses the reset timestamp returned by the usage endpoint and displays it in the iPhone's local time zone as `MM/dd HH:mm`. If the endpoint only supplies seconds remaining, the widget calculates the corresponding local time.
 - No Cloudflare or other server deployment and no Codex CLI are required; authorization and usage lookup run directly in Scriptable on the iPhone.
@@ -88,7 +90,7 @@ A local iPhone widget that completes Codex device authorization, reads usage, an
 4. Under **Script**, select the `Codex Usage` script you saved.
 5. To refresh immediately, run the script from the Scriptable app. iOS schedules later widget refreshes at its discretion.
 
-The medium widget places the 5-hour and weekly limits side by side, with each reset date and time centered directly below its percentage. Images are visual concepts; Scriptable and iOS render the actual widget.
+The medium widget places the 5-hour and weekly limits side by side, with each reset date and time centered directly below its percentage. The small widget also shows both reset times. The title includes a code-style mark and omits the LIVE badge. Images are visual concepts; Scriptable and iOS render the actual widget.
 
 ### Reauthorize
 

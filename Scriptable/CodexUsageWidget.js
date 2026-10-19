@@ -235,12 +235,37 @@ function buildWidget(payload) {
 
 function buildSmall(widget, payload) {
   addTitleRow(widget, payload);
-  widget.addSpacer(10);
-  addBigValue(widget, "5h", percentText(payload.fiveHour), COLORS.blue);
-  widget.addSpacer(2);
-  addBigValue(widget, "W", percentText(payload.weekly), COLORS.green);
-  widget.addSpacer();
-  addFooter(widget, payload);
+  widget.addSpacer(5);
+  addSmallUsageRow(widget, "5h", payload.fiveHour, COLORS.blue);
+  widget.addSpacer(5);
+  addSmallUsageRow(widget, "W", payload.weekly, COLORS.green);
+}
+
+function addSmallUsageRow(parent, label, windowData, color) {
+  const section = parent.addStack();
+  section.layoutVertically();
+
+  const valueRow = section.addStack();
+  valueRow.layoutHorizontally();
+  valueRow.centerAlignContent();
+
+  const labelText = valueRow.addText(label);
+  labelText.font = Font.italicSystemFont(18);
+  labelText.textColor = COLORS.text;
+  valueRow.addSpacer(7);
+
+  const valueText = valueRow.addText(percentText(windowData));
+  valueText.font = Font.semiboldSystemFont(23);
+  valueText.textColor = colorForRemaining(windowData?.remainingPercent, color);
+  valueText.lineLimit = 1;
+  valueText.minimumScaleFactor = 0.7;
+
+  section.addSpacer(1);
+  const reset = section.addText(resetText(windowData, label));
+  reset.font = Font.mediumSystemFont(9);
+  reset.textColor = COLORS.muted;
+  reset.lineLimit = 1;
+  reset.minimumScaleFactor = 0.7;
 }
 
 function buildMedium(widget, payload) {
@@ -274,15 +299,15 @@ function addTitleRow(parent, payload) {
   row.layoutHorizontally();
   row.centerAlignContent();
 
+  const logo = SFSymbol.named("chevron.left.forwardslash.chevron.right").image;
+  logo.tintColor = COLORS.accent;
+  logo.imageSize = new Size(15, 15);
+  row.addImage(logo);
+  row.addSpacer(5);
+
   const title = row.addText("Codex");
   title.font = Font.semiboldSystemFont(15);
   title.textColor = COLORS.text;
-
-  row.addSpacer();
-
-  const badge = row.addText(payload.stale ? "STALE" : "LIVE");
-  badge.font = Font.mediumSystemFont(10);
-  badge.textColor = payload.stale ? COLORS.warning : COLORS.accent;
 }
 
 function addBigValue(parent, label, value, color) {
