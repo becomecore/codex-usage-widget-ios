@@ -303,7 +303,7 @@ function addTitleRow(parent, payload) {
 
   const logo = Image.fromData(Data.fromBase64String(CODEX_LOGO_BASE64));
   logo.tintColor = COLORS.text;
-  const logoWidth = config.widgetFamily === "small" ? 52 : config.widgetFamily === "large" ? 76 : 58;
+  const logoWidth = config.widgetFamily === "small" ? 38 : config.widgetFamily === "large" ? 54 : 42;
   const logoAspect = 480 / 126;
   logo.imageSize = new Size(logoWidth, logoWidth / logoAspect);
   row.addImage(logo);
